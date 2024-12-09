@@ -1,0 +1,237 @@
+creer un index 
+PUT /baseline_pre_process
+{
+  "settings": {
+    "number_of_shards": 2,
+    "number_of_replicas": 2,
+    "index": {
+      "similarity": {
+        "default": {
+          "type": "BM25",
+          "b": 0.75,
+          "k1": 1.5
+        }
+      }
+    },
+    "analysis": {
+      "tokenizer": {
+        "standard_tokenizer": {
+          "type": "standard"
+        }
+      },
+      "filter": {
+        "stopwords_filter": {
+          "type": "stop", 
+          "stopwords": "_english_" 
+        },
+        "stem_filter": {
+          "type": "stemmer", 
+          "language": "english" 
+        }
+      },
+      "analyzer": {
+        "my_custom_analyzer": {
+          "type": "custom",
+          "tokenizer": "standard_tokenizer",
+          "filter": ["stopwords_filter", "stem_filter"]
+        }
+      }
+    }
+  },"mappings": {
+      "properties": {
+        "BYLINE": {
+          "type": "text",
+           "analyzer": "my_custom_analyzer",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "DATELINE": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "DOCNO": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "FILEID": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "FIRST": {
+          "type": "text",
+           "analyzer": "my_custom_analyzer",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "HEAD": {
+          "type": "text",
+           "analyzer": "my_custom_analyzer",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "NOTE": {
+          "type": "text",
+           "analyzer": "my_custom_analyzer",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "SECOND": {
+          "type": "text",
+           "analyzer": "my_custom_analyzer",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "TEXT": {
+          "type": "text",
+           "analyzer": "my_custom_analyzer",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "UNK": {
+          "type": "text",
+           "analyzer": "my_custom_analyzer",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        }
+      }
+    }
+}
+
+
+
+creer un index 
+PUT /baseline
+{
+  "settings": {
+    "number_of_shards": 2,
+    "number_of_replicas": 2,
+    "index": {
+      "similarity": {
+        "default": {
+          "type": "BM25",
+          "b": 0.75,
+          "k1": 1.2
+        }
+      }
+    }
+  }
+}
+
+#BM25 est le modèle de pondération par défaut
+{
+  "baseline_pre_process": {
+    "settings": {
+      "index": {
+        "routing": {
+          "allocation": {
+            "include": {
+              "_tier_preference": "data_content"
+            }
+          }
+        },
+        "number_of_shards": "2",
+        "provided_name": "baseline_pre_process",
+        "similarity": {
+          "default": {
+            "type": "BM25",
+            "b": "0.7",
+            "k1": "1.5"
+          }
+        },
+        "creation_date": "1732186317528",
+        "analysis": {
+          "filter": {
+            "stopwords_filter": {
+              "type": "stop",
+              "stopwords": "_english_"
+            },
+            "stem_filter": {
+              "type": "stemmer",
+              "language": "english"
+            }
+          },
+          "analyzer": {
+            "my_custom_analyzer": {
+              "filter": [
+                "lowercase",
+                "stop",
+                "stemmer"
+              ],
+              "type": "custom",
+              "tokenizer": "standard"
+            }
+          },
+          "tokenizer": {
+            "standard_tokenizer": {
+              "type": "standard"
+            }
+          }
+        },
+        "number_of_replicas": "2",
+        "uuid": "pYiNz7W6ReyttzQeKKaANg",
+        "version": {
+          "created": "8512000"
+        }
+      }
+    }
+  }
+}
+
+creer un index TF IDF
+PUT /baseline_tfidf
+{
+  "settings": {
+    "number_of_shards": 2,
+    "number_of_replicas": 2,
+    "index": {
+       "similarity": {
+      "custom_tfidf": {
+        "type": "classic" 
+      }
+    }
+    }
+  }
+}
