@@ -1,6 +1,7 @@
 # RI_Indexation
 
 -**Preparation**
+
 ce repertoire renferme les scripts utilisés pour la preparation des documents. J'ai pu générer  les fichiers suivants :
 "file_trec.json" --> la baseline
 "pre_file_trec.json" --> pré-traitement (Lemmatization et stop-words)
