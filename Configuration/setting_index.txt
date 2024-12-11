@@ -220,6 +220,8 @@ PUT /baseline
   }
 }
 
+---------------------------------------------------------TF IDF---------------------------------------------------------------
+
 creer un index TF IDF
 PUT /baseline_tfidf
 {
@@ -229,9 +231,156 @@ PUT /baseline_tfidf
     "index": {
        "similarity": {
       "custom_tfidf": {
-        "type": "classic" 
+        "type": "scripted",
+        "script": {
+          "source": "double tf = Math.sqrt(doc.freq); double idf = Math.log((field.docCount + 1) / term.docFreq); return tf * idf;"
+        }
       }
     }
+  }
+  }
+  }
+
+"total": 242918,
+
+
+
+
+
+
+
+------------------------------------------------------------
+{
+  "settings": {
+    "number_of_shards": 2,
+    "number_of_replicas": 2,
+    "index": {
+      "similarity": {
+        "custom_tfidf": {
+        "type": "scripted",
+        "script": {
+          "source": "double tf = Math.sqrt(doc.freq); double idf = Math.log((field.docCount+1.0)/(term.docFreq+1.0)) + 1.0; double norm = 1/Math.sqrt(doc.length); return query.boost * tf * idf * norm;"
+        }
+        }
+      }
+    },
+    "analysis": {
+      "tokenizer": {
+        "standard_tokenizer": {
+          "type": "standard"
+        }
+      },
+      "analyzer": {
+        "my_custom_analyzer": {
+          "type": "custom",
+          "tokenizer": "standard_tokenizer"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "TEXT": {
+        "type": "text",
+        "analyzer": "my_custom_analyzer",
+        "similarity": "custom_tfidf",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "BYLINE": {
+        "type": "text",
+        "analyzer": "my_custom_analyzer",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "DATELINE": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "DOCNO": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+        "FILEID": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "FIRST": {
+          "type": "text",
+          "analyzer": "my_custom_analyzer",
+          "similarity": "custom_tfidf",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "HEAD": {
+          "type": "text",
+          "analyzer": "my_custom_analyzer",
+          "similarity": "custom_tfidf",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "NOTE": {
+          "type": "text",
+          "analyzer": "my_custom_analyzer",
+          "similarity": "custom_tfidf",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "SECOND": {
+          "type": "text",
+           "analyzer": "my_custom_analyzer",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "UNK": {
+          "type": "text",
+           "analyzer": "my_custom_analyzer",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        }
     }
   }
 }

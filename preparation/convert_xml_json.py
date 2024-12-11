@@ -1,10 +1,5 @@
 import xmltodict
 import json
-import os
-import zipfile
-import tarfile
-import xml
-import lxml
 from xml.parsers import expat
 from lxml import etree
 

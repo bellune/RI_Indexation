@@ -21,7 +21,27 @@ commands = [
 './trec_eval -q ../TREC_juge_pert/all_juge_pert_final.txt  ../Result/amelioration/BM25short_req_result.txt > ../Result/amelioration/BM25req_short_eval_results.txt',
 
 #Long request
-'./trec_eval -q ../TREC_juge_pert/all_juge_pert_final.txt  ../Result/amelioration/BM25long_req_result.txt > ../Result/amelioration/BM25req_long_eval_results.txt'
+'./trec_eval -q ../TREC_juge_pert/all_juge_pert_final.txt  ../Result/amelioration/BM25long_req_result.txt > ../Result/amelioration/BM25req_long_eval_results.txt',
+#DFR similarity
+#short request 
+'./trec_eval -q ../TREC_juge_pert/all_juge_pert_final.txt  ../Result/baseline/DFRshort_req_result.txt > ../Result/baseline/DFRreq_short_eval_results.txt',
+
+#Long request
+'./trec_eval -q ../TREC_juge_pert/all_juge_pert_final.txt  ../Result/baseline/DFRlong_req_result.txt > ../Result/baseline/DFRreq_long_eval_results.txt',
+
+##pre_process
+#short request 
+'./trec_eval -q ../TREC_juge_pert/all_juge_pert_final.txt  ../Result/pre_process/DFRshort_req_result.txt > ../Result/pre_process/DFRreq_short_eval_results.txt',
+
+#Long request
+'./trec_eval -q ../TREC_juge_pert/all_juge_pert_final.txt  ../Result/pre_process/DFRlong_req_result.txt > ../Result/pre_process/DFRreq_long_eval_results.txt',
+
+##amelioration
+#short request 
+'./trec_eval -q ../TREC_juge_pert/all_juge_pert_final.txt  ../Result/amelioration/DFRshort_req_result.txt > ../Result/amelioration/DFRreq_short_eval_results.txt',
+
+#Long request
+'./trec_eval -q ../TREC_juge_pert/all_juge_pert_final.txt  ../Result/amelioration/DFRlong_req_result.txt > ../Result/amelioration/DFRreq_long_eval_results.txt'
 
 ]
 

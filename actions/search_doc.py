@@ -24,13 +24,15 @@ def get_req(data_query,bool=False):
                 "type": "best_fields",
                 "query" : data_query,
                 "tie_breaker":1.0,
-                "minimum_should_match":2,
+                "minimum_should_match": "30%",
                 "auto_generate_synonyms_phrase_query" : bool
             }
         }, 
-    "sort": [
-        { "_score": { "order": "desc" } }
-    ]
+       "sort": [
+    {
+      "_score": "desc"
+    }
+  ]
 }
 
 
@@ -49,6 +51,7 @@ def search_doc(index_name, file_request, result_file, typ, run_name="Baseline", 
     all_retrieved_docs = []
     all_relevant_docs = []
     result_lines = []
+    i=0
 
     # Process each query
     for rec in request:
@@ -58,13 +61,14 @@ def search_doc(index_name, file_request, result_file, typ, run_name="Baseline", 
             query_text += " " + rec["desc"]
         
         if expand =='Y':
-           query = get_req(query_text,True)
+           reques = exp.get_reqexpand(query_text,True)
+           query = get_req(reques)
         else:
            query = get_req(query_text)
            
 
         # Perform the search
-        response = es.search(index=index_name, body=query)
+        response = es.search(index=index_name, body=query, size=10000)
         
         # Prepare retrieved and relevant docs
         topic_id = rec["id_topic"]  # ID of the topic
@@ -75,7 +79,7 @@ def search_doc(index_name, file_request, result_file, typ, run_name="Baseline", 
             doc_id = hit["_id"]
             score = hit["_score"]
             retrieved_docs.append(doc_id)
-
+            i+=1
             # Format for TREC_eval
             result_lines.append(f"{topic_id} Q0 {doc_id} {rank} {score} {run_name}\n")
         
@@ -83,6 +87,7 @@ def search_doc(index_name, file_request, result_file, typ, run_name="Baseline", 
         all_relevant_docs.append(relevant_docs)
 
     # Calculate MAP
+    print(i, "docs")
     map_score = mapc.calculate_map(all_retrieved_docs, all_relevant_docs)
     print(f"MAP Score for {run_name}: {map_score:.4f}")
 
@@ -100,27 +105,57 @@ def search_doc(index_name, file_request, result_file, typ, run_name="Baseline", 
 
 
 #Baseline 
-#short request
-search_doc(conf.index_name_notreat,"../TREC_requete/short_request.json","../Result/baseline/short_req_result.txt", "S")
+#short request / MAP Score for Baseline: 0.1405
+#search_doc(conf.index_name_notreat,"../TREC_requete/short_request.json","../Result/baseline/short_req_result.txt", "S")
 
 
 #long request
-search_doc(conf.index_name_notreat,"../TREC_requete/long_request.json","../Result/baseline/long_req_result.txt", "L")
+#long request / MAP Score for Baseline: 0.1646
+#search_doc(conf.index_name_notreat,"../TREC_requete/long_request.json","../Result/baseline/long_req_result.txt", "L")
 
 
 #baseline_pre_process 
-#short request
-search_doc(conf.index_name_withtreat,"../TREC_requete/pre_short_request.json","../Result/pre_process/short_req_result.txt", "S", "pre_process")
+#short request / MAP Score for pre_process: 0.1605
+#search_doc(conf.index_name_withtreat,"../TREC_requete/pre_short_request.json","../Result/pre_process/short_req_result.txt", "S", "pre_process")
 
 
-#long request
-search_doc(conf.index_name_withtreat,"../TREC_requete/pre_long_request.json","../Result/pre_process/long_req_result.txt", "L","pre_process")
+#long request / MAP Score for pre_process: 0.1740
+#search_doc(conf.index_name_withtreat,"../TREC_requete/pre_long_request.json","../Result/pre_process/long_req_result.txt", "L","pre_process")
 
 
 #baseline_pre_process 
-#short request
-search_doc(conf.index_name_withtreat,"../TREC_requete/pre_short_request.json","../Result/amelioration/BM25short_req_result.txt", "S", "Expansion_requetes_Synonyme","Y")
+#short request / MAP Score for Expansion_requetes_Synonyme: 0.1351
+#search_doc(conf.index_name_withtreat,"../TREC_requete/pre_short_request.json","../Result/amelioration/BM25short_req_result.txt", "S", "Expansion_requetes_Synonyme","Y")
 
 
-#long request
-search_doc(conf.index_name_withtreat,"../TREC_requete/pre_long_request.json","../Result/amelioration/BM25long_req_result.txt", "L","Expansion_requetes_Synonyme","Y")
+#long request / MAP Score for Expansion_requetes_Synonyme: 0.1372
+#search_doc(conf.index_name_withtreat,"../TREC_requete/pre_long_request.json","../Result/amelioration/BM25long_req_result.txt", "L","Expansion_requetes_Synonyme","Y")
+
+
+#############################################################
+
+#Baseline DFR
+#short request / MAP Score for Baseline: 0.1405
+#search_doc(conf.index_name_notreatdfr,"../TREC_requete/short_request.json","../Result/baseline/DFRshort_req_result.txt", "S")
+
+
+#long request DFR
+#long request / MAP Score for Baseline: 0.1645
+#search_doc(conf.index_name_notreatdfr,"../TREC_requete/long_request.json","../Result/baseline/DFRlong_req_result.txt", "L")
+
+
+#baseline_pre_process DFR
+#short request / MAP Score for pre_process_DFR: 0.1488
+#search_doc(conf.index_name_withtreatdfr,"../TREC_requete/pre_short_request.json","../Result/pre_process/DFRshort_req_result.txt", "S", "pre_process_DFR")
+
+
+#long request DFR / MAP Score for pre_process: 0.1527
+#search_doc(conf.index_name_withtreatdfr,"../TREC_requete/pre_long_request.json","../Result/pre_process/DFRlong_req_result.txt", "L","pre_process_DFR")
+
+#baseline_pre_process  
+#short request / MAP Score for Expansion_requetes_Synonyme: 0.1244
+#search_doc(conf.index_name_withtreatdfr,"../TREC_requete/pre_short_request.json","../Result/amelioration/DFRshort_req_result.txt", "S", "Expansion_requetes_Synonyme","Y")
+
+
+#long request / MAP Score for Expansion_requetes_Synonyme: 0.1230
+#search_doc(conf.index_name_withtreatdfr,"../TREC_requete/pre_long_request.json","../Result/amelioration/DFRlong_req_result.txt", "L","Expansion_requetes_Synonyme","Y")

@@ -24,5 +24,5 @@ Ce repertoire contient les scripts pour générer les courbes suivant chaque exp
 -**Actions**
 Ce repertoire renferme les scripts pour indexer, rechercher, pre_traiter, etendre les requetes
 
--**Configuration**
+-**Configuration** 
 Ce repertoire contient le script de la connexion à EleasticSearch et un fichier de configuration. 
