@@ -48,8 +48,8 @@ def search_doc(index_name, file_request, result_file, typ, run_name="Baseline", 
     qrels = mapc.load_qrels()
 
     # Prepare result variables
-    all_retrieved_docs = []
-    all_relevant_docs = []
+    # all_retrieved_docs = []
+    # all_relevant_docs = []
     result_lines = []
     i=0
 
@@ -83,20 +83,20 @@ def search_doc(index_name, file_request, result_file, typ, run_name="Baseline", 
             # Format for TREC_eval
             result_lines.append(f"{topic_id} Q0 {doc_id} {rank} {score} {run_name}\n")
         
-        all_retrieved_docs.append(retrieved_docs)
-        all_relevant_docs.append(relevant_docs)
+        # all_retrieved_docs.append(retrieved_docs)
+        # all_relevant_docs.append(relevant_docs)
 
     # Calculate MAP
     print(i, "docs")
-    map_score = mapc.calculate_map(all_retrieved_docs, all_relevant_docs)
-    print(f"MAP Score for {run_name}: {map_score:.4f}")
+    # map_score = mapc.calculate_map(all_retrieved_docs, all_relevant_docs)
+    # print(f"MAP Score for {run_name}: {map_score:.4f}")
 
     # Write results to file
     with open(result_file, "w", encoding="utf-8") as file:
         file.writelines(result_lines)
     
-    with open("../Result/map_score.txt", "a+", encoding="utf-8") as file:
-        file.write(f"-{typ} - MAP Score for {run_name}: {map_score:.4f}\n")
+    # with open("../Result/map_score.txt", "a+", encoding="utf-8") as file:
+    #     file.write(f"-{typ} - MAP Score for {run_name}: {map_score:.4f}\n")
 
     print(f"Results saved to {result_file}")
 
@@ -158,4 +158,4 @@ def search_doc(index_name, file_request, result_file, typ, run_name="Baseline", 
 
 
 #long request / MAP Score for Expansion_requetes_Synonyme: 0.1230
-#search_doc(conf.index_name_withtreatdfr,"../TREC_requete/pre_long_request.json","../Result/amelioration/DFRlong_req_result.txt", "L","Expansion_requetes_Synonyme","Y")
+search_doc(conf.index_name_withtreatdfr,"../TREC_requete/pre_long_request.json","../Result/amelioration/DFRlong_req_result.txt", "L","Expansion_requetes_Synonyme","Y")
