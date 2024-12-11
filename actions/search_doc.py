@@ -95,6 +95,7 @@ def search_doc(index_name, file_request, result_file, typ, run_name="Baseline", 
     with open(result_file, "w", encoding="utf-8") as file:
         file.writelines(result_lines)
     
+    
     # with open("../Result/map_score.txt", "a+", encoding="utf-8") as file:
     #     file.write(f"-{typ} - MAP Score for {run_name}: {map_score:.4f}\n")
 
