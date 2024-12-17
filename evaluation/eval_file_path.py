@@ -15,8 +15,8 @@ path_eval = [
 },
 
 
-##pre_process
-#short request 
+# ##pre_process
+# #short request 
 {
  "run_name":"pre_process BM25",
  "req":"Requete Courte",
@@ -30,8 +30,8 @@ path_eval = [
 "path":'../Result/pre_process/req_long_eval_results.txt'
 },
 
-##amelioration
-#short request 
+# ##amelioration
+# #short request 
 {
  "run_name":"Expansion de Requetes BM25",
  "req":"Requete Courte",
@@ -69,18 +69,18 @@ path_eval = [
  "run_name":"pre_process DFR",
  "req":"Requete Longue",
 "path":'../Result/pre_process/DFRreq_long_eval_results.txt'
-},
-##amelioration
-#short request 
-{
- "run_name":"Expansion de Requetes DFR",
- "req":"Requete Courte",
-"path":'../Result/amelioration/DFRreq_short_eval_results.txt'
-},
-#Long request
-{
- "run_name":"Expansion de Requetes DFR",
- "req":"Requete Courte",
-"path":'../Result/amelioration/DFRreq_long_eval_results.txt'
 }
+# ##amelioration
+# #short request 
+# {
+#  "run_name":"Expansion de Requetes DFR",
+#  "req":"Requete Courte",
+# "path":'../Result/amelioration/DFRreq_short_eval_results.txt'
+# },
+# #Long request
+# {
+#  "run_name":"Expansion de Requetes DFR",
+#  "req":"Requete Courte",
+# "path":'../Result/amelioration/DFRreq_long_eval_results.txt'
+# }
 ]

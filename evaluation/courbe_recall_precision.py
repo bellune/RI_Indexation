@@ -29,6 +29,9 @@ def get_curve():
             color=colors[i % len(colors)],  # Réutilise les couleurs si >6 courbes
             label=f'{ev["req"]} : {ev["run_name"]}'
         )
+
+    plt.xlim(0, 1)  # L'axe X commence à 0
+    plt.ylim(0, 0.75)  # Ajuster pour inclure le point zéro    
     
     # Ajoutez les titres, légendes et grille
     plt.title('Courbes Precision-Recall')
@@ -52,10 +55,15 @@ def get_one_curve(result_file, req, run_name):
     # Calculer la précision moyenne à chaque niveau de rappel
     average_precision = precall.average_precision_at_recall(recall_levels, precision_by_query)
 
-
-    # Tracer la courbe
+    print(average_precision)
+    print(recall_levels)
+    
+    #Tracer la courbe
     plt.figure(figsize=(8, 6))
     plt.plot(recall_levels, average_precision, marker='o', linestyle='-', color='g', label=req+' : Courbe Precision-Recall')
+     # Exemple de configuration correcte
+    plt.axhline(y=0, color='gray', linestyle='--')  # Ligne horizontale pour 0
+    plt.axvline(x=0, color='gray', linestyle='--')  # Ligne verticale pour 0
     plt.xlabel('Recall')
     plt.ylabel('Precision')
     plt.title('Courbe Precision-Recall ('+run_name+')')

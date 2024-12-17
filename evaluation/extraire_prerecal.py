@@ -33,6 +33,8 @@ def average_precision_at_recall(recall_levels, precision_by_query):
     # Calculer la moyenne des précisions pour chaque niveau de rappel
     precision_matrix = np.array([precision_by_query[qid] for qid in precision_by_query])
     average_precision = np.mean(precision_matrix, axis=0)
+
+
     return average_precision
 
 

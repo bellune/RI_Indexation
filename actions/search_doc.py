@@ -25,7 +25,7 @@ def get_req(data_query,bool=False):
                 "query" : data_query,
                 "tie_breaker":1.0,
                 "minimum_should_match": "30%",
-                "auto_generate_synonyms_phrase_query" : bool
+                "auto_generate_synonyms_phrase_query" : False
             }
         }, 
        "sort": [
@@ -61,8 +61,8 @@ def search_doc(index_name, file_request, result_file, typ, run_name="Baseline", 
             query_text += " " + rec["desc"]
         
         if expand =='Y':
-           reques = exp.get_reqexpand(query_text,True)
-           query = get_req(reques)
+           reques = exp.get_reqexpand(query_text)
+           query = get_req(reques, True)
         else:
            query = get_req(query_text)
            
@@ -95,7 +95,7 @@ def search_doc(index_name, file_request, result_file, typ, run_name="Baseline", 
     with open(result_file, "w", encoding="utf-8") as file:
         file.writelines(result_lines)
     
-    
+
     # with open("../Result/map_score.txt", "a+", encoding="utf-8") as file:
     #     file.write(f"-{typ} - MAP Score for {run_name}: {map_score:.4f}\n")
 
@@ -116,47 +116,47 @@ def search_doc(index_name, file_request, result_file, typ, run_name="Baseline", 
 
 
 #baseline_pre_process 
-#short request / MAP Score for pre_process: 0.1605
+#short request / 
 #search_doc(conf.index_name_withtreat,"../TREC_requete/pre_short_request.json","../Result/pre_process/short_req_result.txt", "S", "pre_process")
 
 
-#long request / MAP Score for pre_process: 0.1740
+#long request / 
 #search_doc(conf.index_name_withtreat,"../TREC_requete/pre_long_request.json","../Result/pre_process/long_req_result.txt", "L","pre_process")
 
 
-#baseline_pre_process 
-#short request / MAP Score for Expansion_requetes_Synonyme: 0.1351
-#search_doc(conf.index_name_withtreat,"../TREC_requete/pre_short_request.json","../Result/amelioration/BM25short_req_result.txt", "S", "Expansion_requetes_Synonyme","Y")
+#baseline_pre_process / Amelioration
+#short request / 
+search_doc(conf.index_name_withtreat,"../TREC_requete/pre_short_request.json","../Result/amelioration/BM25short_req_result.txt", "S", "Expansion_requetes_Synonyme","Y")
 
 
-#long request / MAP Score for Expansion_requetes_Synonyme: 0.1372
+#long request / Amelioration
 #search_doc(conf.index_name_withtreat,"../TREC_requete/pre_long_request.json","../Result/amelioration/BM25long_req_result.txt", "L","Expansion_requetes_Synonyme","Y")
 
 
 #############################################################
 
 #Baseline DFR
-#short request / MAP Score for Baseline: 0.1405
+#short request / 
 #search_doc(conf.index_name_notreatdfr,"../TREC_requete/short_request.json","../Result/baseline/DFRshort_req_result.txt", "S")
 
 
 #long request DFR
-#long request / MAP Score for Baseline: 0.1645
+#long request / 
 #search_doc(conf.index_name_notreatdfr,"../TREC_requete/long_request.json","../Result/baseline/DFRlong_req_result.txt", "L")
 
 
 #baseline_pre_process DFR
-#short request / MAP Score for pre_process_DFR: 0.1488
+#short request / 
 #search_doc(conf.index_name_withtreatdfr,"../TREC_requete/pre_short_request.json","../Result/pre_process/DFRshort_req_result.txt", "S", "pre_process_DFR")
 
 
-#long request DFR / MAP Score for pre_process: 0.1527
+#long request DFR / 
 #search_doc(conf.index_name_withtreatdfr,"../TREC_requete/pre_long_request.json","../Result/pre_process/DFRlong_req_result.txt", "L","pre_process_DFR")
 
 #baseline_pre_process  
-#short request / MAP Score for Expansion_requetes_Synonyme: 0.1244
+#short request / 
 #search_doc(conf.index_name_withtreatdfr,"../TREC_requete/pre_short_request.json","../Result/amelioration/DFRshort_req_result.txt", "S", "Expansion_requetes_Synonyme","Y")
 
 
-#long request / MAP Score for Expansion_requetes_Synonyme: 0.1230
-search_doc(conf.index_name_withtreatdfr,"../TREC_requete/pre_long_request.json","../Result/amelioration/DFRlong_req_result.txt", "L","Expansion_requetes_Synonyme","Y")
+#long request / 
+#search_doc(conf.index_name_withtreatdfr,"../TREC_requete/pre_long_request.json","../Result/amelioration/DFRlong_req_result.txt", "L","Expansion_requetes_Synonyme","Y")
