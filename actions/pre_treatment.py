@@ -22,6 +22,7 @@ def preprocess_text(text):
     doc = nlp(text.lower())  # Conversion en minuscule
     return " ".join([
         token.lemma_ for token in doc if token.text not in stop_words and token.is_alpha
+       # token.text for token in doc if token.text not in stop_words and token.is_alpha
     ])
 
 
@@ -67,8 +68,11 @@ def preprocess_json(input_file, output_file):
 #input_file = "../preparation/file_trec.json"   # Fichier JSON d'origine
 #output_file = "../preparation/pre_file_trec.json"  # Fichier JSON prétraité
 
+# input_file = "../TREC_requete/long_request.json"   # Fichier JSON d'origine
+# output_file = "../TREC_requete/pre_long_request.json"  # Fichier JSON prétraité
+
 input_file = "../TREC_requete/long_request.json"   # Fichier JSON d'origine
-output_file = "../TREC_requete/pre_long_request.json"  # Fichier JSON prétraité
+output_file = "../TREC_requete/try_long_request.json"  # Fichier JSON prétraité
 
 preprocess_json(input_file, output_file)
 

@@ -126,11 +126,11 @@ def search_doc(index_name, file_request, result_file, typ, run_name="Baseline", 
 
 #baseline_pre_process / Amelioration
 #short request / 
-search_doc(conf.index_name_withtreat,"../TREC_requete/pre_short_request.json","../Result/amelioration/BM25short_req_result.txt", "S", "Expansion_requetes_Synonyme","Y")
+#search_doc(conf.index_name_withtreat,"../TREC_requete/pre_short_request.json","../Result/amelioration/BM25short_req_result.txt", "S", "Expansion_requetes_Synonyme","Y")
 
 
 #long request / Amelioration
-#search_doc(conf.index_name_withtreat,"../TREC_requete/pre_long_request.json","../Result/amelioration/BM25long_req_result.txt", "L","Expansion_requetes_Synonyme","Y")
+search_doc(conf.index_name_withtreat,"../TREC_requete/pre_long_request.json","../Result/amelioration/BM25long_req_result.txt", "L","Expansion_requetes_Synonyme","Y")
 
 
 #############################################################

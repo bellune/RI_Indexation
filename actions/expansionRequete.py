@@ -1,9 +1,13 @@
 from nltk.corpus import wordnet
 from nltk.wsd import lesk  # Algorithme Lesk pour la désambiguïsation
+import spacy
+
+nlp = spacy.load("en_core_web_sm")
 
 
-def get_synonymsss(term, context=None, max_synsets=7, synset_types=['n','r', 'a']):
-   
+def get_synonymsss(term, context=None, max_synsets=1, synset_types=['n','r']):
+
+    
     if not isinstance(synset_types, (list, tuple)):
         raise ValueError("L'argument 'synset_types' doit être une liste ou un tuple.")
     
@@ -20,49 +24,18 @@ def get_synonymsss(term, context=None, max_synsets=7, synset_types=['n','r', 'a'
     # Récupérer les synonymes pour le synset désambiguïsé
     expanded_terms = set()
     for lemma in synset.lemmas():
-        expanded_terms.add(lemma.name().replace("_", " "))
-        # if len(expanded_terms) >= max_synsets:
-        #     break
+         
+        synonym = lemma.name().replace("_", " ")  # Nettoyer le format de WordNet
+        # Lemmatise le synonyme avec spaCy
+        doc = nlp(synonym)
+        lemmatized = " ".join([token.lemma_ for token in doc])
+        expanded_terms.add(lemmatized)
+
+        if len(expanded_terms) >= max_synsets:
+            break
 
     return list(expanded_terms)[:max_synsets]
 
-
-
-def get_syms_hyper_hypo(term, context,  relations=['synonym'], synset_types=['n', 'v', 'a']):
-    expanded_terms = set()
-    
-
-    if context:
-        # Désambiguïsation avec Lesk
-        synset = lesk(context, term, pos=None)  # Désambiguïser le terme
-   
-        for synset in wordnet.synsets(term):
-
-            if synset.pos() in synset_types:
-                # Synonymes
-                # if 'synonym' in relations:
-                for lemma in synset.lemmas():
-                    expanded_terms.add(lemma.name().replace("_", " "))
-                    # if len(expanded_terms) >= max_synsets:
-                    return list(expanded_terms)
-                
-                # # Hyperonymes
-                # if 'hypernym' in relations:
-                #     for hypernym in synset.hypernyms():
-                #         for lemma in hypernym.lemmas():
-                #             expanded_terms.add(lemma.name().replace("_", " "))
-                #             if len(expanded_terms) >= max_synsets:
-                #                 return list(expanded_terms)
-                
-                # # Hyponymes
-                # if 'hyponym' in relations:
-                #     for hyponym in synset.hyponyms():
-                #         for lemma in hyponym.lemmas():
-                #             expanded_terms.add(lemma.name().replace("_", " "))
-                #             if len(expanded_terms) >= max_synsets:
-                #                 return list(expanded_terms)
-    
-    return list(expanded_terms)[:]
 
 
 
